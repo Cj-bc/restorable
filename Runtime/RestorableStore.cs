@@ -41,7 +41,7 @@ public class RestorableStore : ScriptableObject
             });
         }
         
-        Debug.Log(root.ToJsonString(new () { WriteIndented = true } ));
+        File.WriteAllText(_configPath, root.ToJsonString(new() { WriteIndented = true }));
     }
 
     [ContextMenu("Restore")]
