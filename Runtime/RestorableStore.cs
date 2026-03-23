@@ -52,6 +52,7 @@ public class RestorableStore : ScriptableObject
             });
         }
         
+        EnsureFileExists(_configPath);
         File.WriteAllText(_configPath, root.ToJsonString(new() { WriteIndented = true }));
     }
 
@@ -95,5 +96,22 @@ public class RestorableStore : ScriptableObject
                 }
             }
         }
+    }
+
+    private static void EnsureFileExists(string path)
+    {
+        if (File.Exists(path))
+        {
+            return;
+        }
+
+        if (Directory.Exists(path))
+        {
+            Debug.LogError($"[RestorableStore] Invalid config path: '{path}' is a directory.");
+            return;
+        }
+
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        using var st = File.Create(path);
     }
 }
