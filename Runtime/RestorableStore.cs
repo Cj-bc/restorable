@@ -29,7 +29,7 @@ public class RestorableStore : ScriptableObject
         _registeredItems.Add(restorable.GetType().FullName, restorable);
     }
 
-    [ContextMenu("Dump")]
+    [ContextMenu("Save")]
     public void Save()
     {
         JsonObject root = new JsonObject
@@ -66,6 +66,14 @@ public class RestorableStore : ScriptableObject
         }
         using Stream stream = File.OpenRead(_configPath);
 
+        /*
+          読み込みだけであれば JsonDocument の方が速くimmutableであるが、
+
+          + JsonNode の方が取り回しやすい(APIの書き心地が良い)
+          + 頻繁に呼び出される関数ではなく、そこまでパフォーマンスを気にする必要がない
+
+          ことから JsonNode で書いている。
+        */
         var doc = JsonNode.Parse(stream);
 
         if (doc?["restorable"] is not JsonObject root)
