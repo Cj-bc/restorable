@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.Text.Json.Nodes;
+using UnityEngine;
+
+
+[CreateAssetMenu(menuName = "Restorable/Store", fileName = "RestorableStore")]
+public class RestorableStore : ScriptableObject
+{
+    public const string RESTORABLE_VERSION = "0.0.1";
+
+    private Dictionary<Type, Restorable> _registeredItems = new();
+
+    public void Register(Restorable restorable)
+    {
+        _registeredItems.Add(restorable.GetType(), restorable);
+    }
+
+    [ContextMenu("Assets/DUmp")]
+    public void Save()
+    {
+        JsonObject root = new JsonObject
+        {
+            ["restorable"] = new JsonObject
+            {
+                ["version"] = RESTORABLE_VERSION,
+                ["registeredItems"] = new JsonArray(
+                ),
+            }
+        };
+
+        JsonArray itemsRoot = (root!["restorable"]!["registeredItems"] as JsonArray);
+        foreach (var item in _registeredItems)
+        {
+            itemsRoot.Add(new JsonObject
+            {
+                ["key"] = item.Key.FullName,
+                ["snapshot"] = item.Value.MakeSnapshot(),
+            });
+        }
+        
+        Debug.Log(root.ToJsonString());
+    }
+
+    public void Restore()
+    {
+    }
+
+    public T? Find<T>()
+    {
+        return default;
+    }
+}
