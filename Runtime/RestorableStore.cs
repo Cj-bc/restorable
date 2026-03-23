@@ -8,8 +8,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Restorable/Store", fileName = "RestorableStore")]
 public class RestorableStore : ScriptableObject
 {
+    public enum PathRoot
+    {
+        Absolute, PersistentDataPath, DataPath
+    }
     public const string RESTORABLE_VERSION = "0.0.1";
-    [SerializeField] private string _configPath = "";
+    [SerializeField] private string _rawConfigPath = "";
+    [SerializeField] private PathRoot _pathRoot;
+    private string _configPath => _pathRoot switch
+    {
+        PathRoot.Absolute => _rawConfigPath,
+        PathRoot.PersistentDataPath => Path.Combine(Application.persistentDataPath, _rawConfigPath),
+        PathRoot.DataPath => Path.Combine(Application.dataPath, _rawConfigPath),
+    };
 
     private Dictionary<string, Restorable> _registeredItems = new();
 
