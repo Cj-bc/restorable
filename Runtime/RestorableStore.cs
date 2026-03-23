@@ -9,11 +9,11 @@ public class RestorableStore : ScriptableObject
 {
     public const string RESTORABLE_VERSION = "0.0.1";
 
-    private Dictionary<Type, Restorable> _registeredItems = new();
+    private Dictionary<string, Restorable> _registeredItems = new();
 
     public void Register(Restorable restorable)
     {
-        _registeredItems.Add(restorable.GetType(), restorable);
+        _registeredItems.Add(restorable.GetType().FullName, restorable);
     }
 
     [ContextMenu("Dump")]
@@ -34,7 +34,7 @@ public class RestorableStore : ScriptableObject
         {
             itemsRoot.Add(new JsonObject
             {
-                ["key"] = item.Key.FullName,
+                ["key"] = item.Key,
                 ["snapshot"] = item.Value.MakeSnapshot(),
             });
         }
