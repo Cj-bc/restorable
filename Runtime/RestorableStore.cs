@@ -16,7 +16,7 @@ public class RestorableStore : ScriptableObject
         _registeredItems.Add(restorable.GetType(), restorable);
     }
 
-    [ContextMenu("Assets/DUmp")]
+    [ContextMenu("Dump")]
     public void Save()
     {
         JsonObject root = new JsonObject
