@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class RestorableStore : ScriptableObject
 {
     public const string RESTORABLE_VERSION = "0.0.1";
+    [SerializeField] private string _configPath = "";
 
     private Dictionary<string, Restorable> _registeredItems = new();
 
@@ -42,7 +44,45 @@ public class RestorableStore : ScriptableObject
         Debug.Log(root.ToJsonString(new () { WriteIndented = true } ));
     }
 
+    [ContextMenu("Restore")]
     public void Restore()
     {
+        if (!File.Exists(_configPath))
+        {
+            Debug.LogWarning($"[RestorableStore] Config file not found at {_configPath}");
+            return;
+        }
+        using Stream stream = File.OpenRead(_configPath);
+
+        var doc = JsonNode.Parse(stream);
+
+        if (doc?["restorable"] is not JsonObject root)
+        {
+            Debug.LogWarning("[RestorableStore] invalid json format: Root not found.");
+            return;
+        }
+
+        if (root?["version"] is not JsonValue ver
+            || !ver.TryGetValue<string>(out var version)
+            || version != RESTORABLE_VERSION)
+        {
+            Debug.LogWarning("[RestorableStore] version mismatch");
+            return;
+        }
+
+        if (doc?["registeredItems"] is JsonArray items)
+        {
+            foreach (var item in items)
+            {
+                if (item?["key"] is JsonValue keyNode
+                    && item?["snapshot"] is JsonObject snapshot
+                    && keyNode.TryGetValue<string>(out string key)
+                    && _registeredItems.ContainsKey(key)
+                    && _registeredItems[key] is Restorable restorable)
+                {
+                    restorable.Restore(snapshot);
+                }
+            }
+        }
     }
 }
