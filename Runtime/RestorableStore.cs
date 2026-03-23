@@ -70,7 +70,7 @@ public class RestorableStore : ScriptableObject
             return;
         }
 
-        if (doc?["registeredItems"] is JsonArray items)
+        if (root?["registeredItems"] is JsonArray items)
         {
             foreach (var item in items)
             {
