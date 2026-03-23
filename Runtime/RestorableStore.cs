@@ -39,7 +39,7 @@ public class RestorableStore : ScriptableObject
             });
         }
         
-        Debug.Log(root.ToJsonString());
+        Debug.Log(root.ToJsonString(new () { WriteIndented = true } ));
     }
 
     public void Restore()
