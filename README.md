@@ -89,4 +89,4 @@ You can also trigger **Save** and **Restore** directly from the Inspector via th
 Add the package via the Unity Package Manager using the Git URL of this repository, or copy the `Packages/com.github.cj-bc.unity.restorable` directory into your project's `Packages` folder.
 
 **Dependencies:**
-- `org.nuget.system.text.json` 10.0.2
+- `org.nuget.system.text.json` 10.0.2 — must be installed via [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)

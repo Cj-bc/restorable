@@ -89,4 +89,4 @@ void LoadGame()
 Unity Package Manager でこのリポジトリの Git URL を指定してパッケージを追加するか、`Packages/com.github.cj-bc.unity.restorable` ディレクトリをプロジェクトの `Packages` フォルダにコピーしてください。
 
 **依存パッケージ:**
-- `org.nuget.system.text.json` 10.0.2
+- `org.nuget.system.text.json` 10.0.2 — [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) でインストールする必要があります
