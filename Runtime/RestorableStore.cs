@@ -45,9 +45,4 @@ public class RestorableStore : ScriptableObject
     public void Restore()
     {
     }
-
-    public T? Find<T>()
-    {
-        return default;
-    }
 }
