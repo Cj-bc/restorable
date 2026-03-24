@@ -1,5 +1,5 @@
 {
-    "name": "com.github.cj-bc.unity.restorable",
+    "name": "com.github.cj-bc.restorable",
     "displayName": "Restorable",
     "version": "0.0.1",
     "dependencies": {
