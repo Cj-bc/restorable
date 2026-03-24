@@ -2,6 +2,9 @@
     "name": "com.github.cj-bc.restorable",
     "displayName": "Restorable",
     "version": "0.0.1",
+    "author": {
+        "name": "Cj-bc"
+    },
     "dependencies": {
       "org.nuget.system.text.json": "10.0.2"
     }
