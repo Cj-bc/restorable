@@ -2,11 +2,9 @@
 
 [日本語版はこちら / Japanese](./README_JA.md)
 
-A Unity package that provides a simple snapshot-based save/restore system for game state.
-
 ## Overview
 
-**Restorable** is a Unity package (`com.github.cj-bc.unity.restorable`) that lets you save and restore the state of your objects using JSON snapshots.
+Restorable provides a single store object and interface for saving/restoring states to/from external JSON file. 
 
 It consists of two main components:
 
